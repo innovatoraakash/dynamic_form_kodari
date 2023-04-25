@@ -6,10 +6,12 @@ import 'package:flutter/src/widgets/placeholder.dart';
 
 class RadioButtonWidget extends StatefulWidget {
   const RadioButtonWidget(
-    this.id, {
+    this.id,
+    this.index, {
     super.key,
   });
   final String id;
+  final int index;
   @override
   State<RadioButtonWidget> createState() => _RadioButtonWidgetState();
 }
@@ -20,17 +22,23 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
   @override
   Widget build(BuildContext context) {
     bool radiovalue = false;
-    final exists = radioButtonValues.containsKey(widget.id);
-    if (!exists) {
-      radioButtonValues.addAll({widget.id: false});
+    Map<String, dynamic> radioButtonValue = {};
+    if (radioButtonValues.length > widget.index) {
+      radioButtonValue = radioButtonValues[widget.index];
     } else {
-      radiovalue = radioButtonValues[widget.id] as bool;
+      radioButtonValues.add({});
+    }
+    final exists = radioButtonValue.containsKey(widget.id);
+    if (!exists) {
+      radioButtonValue.addAll({widget.id: false});
+    } else {
+      radiovalue = radioButtonValue[widget.id] as bool;
     }
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: <Widget>[
-        radioButton(true, "Yes",radiovalue),
-        radioButton(false, "No",radiovalue),
+        radioButton(true, "Yes", radiovalue),
+        radioButton(false, "No", radiovalue),
       ],
     );
   }
@@ -50,7 +58,7 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
             if (value != null) {
               groupVal = value;
               log(value.toString());
-              radioButtonValues.update(widget.id, (existingVal) => value);
+              radioButtonValues[widget.index].update(widget.id, (existingVal) => value);
               setState(() {});
             }
           },
@@ -63,4 +71,4 @@ class _RadioButtonWidgetState extends State<RadioButtonWidget> {
   }
 }
 
-Map<String, dynamic> radioButtonValues = {};
+List<Map<String, dynamic>> radioButtonValues = [{}];
