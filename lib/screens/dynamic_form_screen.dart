@@ -92,7 +92,7 @@ class _DynamicFormUiState extends State<DynamicFormUi> {
               padding: const EdgeInsets.all(18.0),
               child: ElevatedButton(
                   onPressed: () {
-                    debugPrint(radioButtonValues.map((e) => e.toString()).join("\n"));
+                    debugPrint(radioButtonValues.map((e) => e.toString()).join("\n\n"));
                   },
                   child: const Text("Print Values")),
             )
